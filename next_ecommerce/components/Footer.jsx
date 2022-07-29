@@ -5,6 +5,8 @@ const Footer = () => {
   return (
     <div className="footer-container">
       <p>2022 - Alpha Cleaning Services All rights reserved</p>
+      <AiFillInstagram />
+      <AiOutlineTwitter />
     </div>
   );
 };
