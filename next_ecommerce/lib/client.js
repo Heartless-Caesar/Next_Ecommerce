@@ -1,6 +1,6 @@
 import sanityClient from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
-//require("dotenv").config();
+
 export const client = sanityClient({
   projectId: "ivulmotw",
   dataset: "production",
@@ -12,5 +12,5 @@ export const client = sanityClient({
 const builder = imageUrlBuilder(client);
 
 export const urlFor = (source) => {
-  builder.image(source);
+  return builder.image(source);
 };

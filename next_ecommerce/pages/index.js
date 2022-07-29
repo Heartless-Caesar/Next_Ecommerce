@@ -11,7 +11,9 @@ const Home = ({ products, banners }) => {
         <h2>Best selling product</h2>
         <p>Services for many situations</p>
         <div className="products-container">
-          {products.map((product) => product.name)}
+          {products.map((product) => (
+            <Product key={product._id} product={product} />
+          ))}
         </div>
         <footer>
           <FooterBanner />
