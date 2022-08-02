@@ -58,6 +58,7 @@ export const StateContext = ({ children }) => {
     const updatedCartItems = cartItems.filter((item) => item._id !== id);
 
     if (value === "inc") {
+      //Finds the desired item without removing it and udpated the quantity
       updatedCartItems = cartItems.map((item) =>
         item._id === id
           ? {
@@ -66,8 +67,13 @@ export const StateContext = ({ children }) => {
             }
           : item
       );
+      //Updated cart state
       setCartItems([...updatedCartItems]);
+
+      //Updated cart total price
       setTotalPrice((prevTotalPrice) => prevTotalPrice + foundItem.price);
+
+      //Updated cart total quantity
       setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
     } else if (value === "dec") {
       if (foundItem.quantity > 1) {
