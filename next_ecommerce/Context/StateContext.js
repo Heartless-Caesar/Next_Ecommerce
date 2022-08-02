@@ -36,7 +36,21 @@ export const StateContext = ({ children }) => {
       setCartItems([...cartItems, { ...product }]);
     }
   };
+  //REMOVE ITEM FROM CART
+  const onRemove = (product) => {
+    foundItem = cartItems.find((item) => item._id === product._id);
+    const updatedCartItems = cartItems.filter(
+      (item) => item._id !== foundItem._id
+    );
 
+    setTotalPrice(
+      (prevTotalPrice) => prevTotalPrice - foundItem.price * foundItem.quantity
+    );
+    setTotalQuantity(
+      (prevTotalQuantity) => prevTotalQuantity - foundItem.quantity
+    );
+    setCartItems(updatedCartItems);
+  };
   //CHANGE PRODUCT QUANTITY IN THE CART OFFSET
   const toggleCartItemQuantity = (id, value) => {
     foundItem = cartItems.find((item) => item._id === id);
@@ -44,18 +58,28 @@ export const StateContext = ({ children }) => {
     const updatedCartItems = cartItems.filter((item) => item._id !== id);
 
     if (value === "inc") {
-      setCartItems([
-        ...updatedCartItems,
-        { ...foundItem, quantity: foundItem.quantity + 1 },
-      ]);
+      updatedCartItems = cartItems.map((item) =>
+        item._id === id
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
+          : item
+      );
+      setCartItems([...updatedCartItems]);
       setTotalPrice((prevTotalPrice) => prevTotalPrice + foundItem.price);
       setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
     } else if (value === "dec") {
       if (foundItem.quantity > 1) {
-        setCartItems([
-          ...updatedCartItems,
-          { ...foundItem, quantity: foundItem.quantity - 1 },
-        ]);
+        updatedCartItems = cartItems.map((item) =>
+          item._id === id
+            ? {
+                ...item,
+                quantity: item.quantity - 1,
+              }
+            : item
+        );
+        setCartItems([...updatedCartItems]);
         setTotalPrice((prevTotalPrice) => prevTotalPrice - foundItem.price);
         setTotalQuantity((prevTotalQuantity) => prevTotalQuantity - 1);
       }
@@ -89,6 +113,7 @@ export const StateContext = ({ children }) => {
         increaseQty,
         decreaseQty,
         onAdd,
+        onRemove,
         toggleCartItemQuantity,
       }}
     >
